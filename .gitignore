@@ -1,0 +1,12 @@
+*.pyc
+*.DS_Store
+_build/
+book/_build/
+*.log
+*.tmpproj
+*.db
+.DS_Store
+keys.py
+.idea
+venv/
+*.sqlite3
