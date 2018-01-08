@@ -10,3 +10,4 @@ keys.py
 .idea
 venv/
 *.sqlite3
+*/migrations/*initial*.py
