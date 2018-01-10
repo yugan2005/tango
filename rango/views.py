@@ -1,7 +1,10 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
-from rango.forms import CategoryForm
+from django.urls import reverse
+
+from rango.forms import CategoryForm, PageForm
 from rango.models import Category, Page
 
 
@@ -47,4 +50,28 @@ def add_category(request):
 
     return render(request, 'rango/add_category.html', context={'form': form})
 
-def add_page(request, )
+
+def add_page(request, category_name_slug):
+    form = PageForm()
+    try:
+        category = Category.objects.get(slug=category_name_slug)
+    except Category.DoesNotExist:
+        category = None
+
+    if request.method == 'POST':
+        if category:
+            form = PageForm(request.POST)
+
+            if form.is_valid():
+                page = form.save(commit=False)
+                page.category = category
+                page.save()
+
+                return HttpResponseRedirect(reverse(show_category, args=(category_name_slug,)))
+            else:
+                print(form.errors())
+
+    context_dict = dict()
+    context_dict['category'] = category
+    context_dict['form'] = form
+    return render(request, 'rango/add_page.html', context=context_dict)
