@@ -1,71 +1,57 @@
-<!DOCTYPE html>
-
+{% extends 'rango/base.html' %}
 {% load staticfiles %}
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Rango</title>
-</head>
-<body>
-<h1>Rango says...</h1>
-<div>
-    hey there partner!<br/>
-</div>
+{% block title_block %}
+    Home
+{% endblock %}
 
-<div>
+{% block body_block %}
+    <h1>Rango says...</h1>
+    <div> Hey there partner!</div>
     {% if categories %}
-        <h1>Most Liked Categories</h1>
-        <table style="border-width: 0px" cellpadding="5">
-            <tr align="left">
-                <th>Category</th>
-                <th>Likes</th>
-            </tr>
-            {% for category in categories %}
+        <hr/>
+        <div>
+            <h1>Most Liked Categories</h1>
+            <table style="border: hidden" cellpadding="5px">
                 <tr align="left">
-                    <td>
-                        <a href="/rango/category/{{ category.slug }}">
+                    <th>Category</th>
+                    <th>Likes</th>
+                </tr>
+                {% for category in categories %}
+                    <tr>
+                        <td><a href="{% url 'rango:show_category' category.slug %}">
                             {{ category.name }}
-                        </a>
-                    </td>
-                    <td>{{ category.likes }}</td>
-                </tr>
-            {% endfor %}
-        </table>
+                        </a></td>
+                        <td>{{ category.likes }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
     {% else %}
-        <strong>There are no categories present.</strong>
+        <strong>There are no categories now</strong>
     {% endif %}
-</div>
-<hr/>
-<div>
     {% if pages %}
-        <h1>Most Viewed Pages</h1>
-        <table style="border-width: 0px" cellpadding="5">
-            <tr align="left">
-                <th>Page</th>
-                <th>View Counts</th>
-            </tr>
-            {% for page in pages %}
+        <hr/>
+        <div>
+            <h1>Most viewed Pages</h1>
+            <table style="border: hidden" cellpadding="5px">
                 <tr align="left">
-                    <td>
-                        <a href="{{ page.url }}">{{ page.title }}</a>
-                    </td>
-                    <td>{{ page.views }}</td>
+                    <th>Page</th>
+                    <th>Views</th>
                 </tr>
-            {% endfor %}
-        </table>
+                {% for page in pages %}
+                    <tr>
+                        <td><a href="{{ page.url }}">
+                            {{ page.title }}
+                        </a></td>
+                        <td>{{ page.views }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
     {% else %}
-        <strong>There are no pages present.</strong>
+        <strong>There are no pages now</strong>
     {% endif %}
-</div>
-<hr/>
-<div>
-    <a href="/rango/add_category/">Add a New Category</a>
-</div>
-<hr/>
-<div>
-    <a href="/rango/about/">About Rango</a><br/>
-    <img src="{% static 'images/rango.jpg' %}" alt="Picture of Rango"/><br/>
-</div>
-</body>
-</html>
+    <hr/>
+    <img src="{% static 'images/rango.jpg' %}" alt="Picture of Rango"/>
+{% endblock %}

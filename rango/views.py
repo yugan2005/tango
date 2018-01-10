@@ -67,9 +67,9 @@ def add_page(request, category_name_slug):
                 page.category = category
                 page.save()
 
-                return HttpResponseRedirect(reverse(show_category, args=(category_name_slug,)))
+                return HttpResponseRedirect(reverse('rango:show_category', args=(category_name_slug,)))
             else:
-                print(form.errors())
+                print(form.errors)
 
     context_dict = dict()
     context_dict['category'] = category

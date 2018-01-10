@@ -1,29 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Rango</title>
-</head>
-<body>
-{% if category %}
-    <h1>Add a Page</h1>
-    <div>
-        <form id="page_form" method="post" action="/rango/category/{{ category.slug }}/add_page/">
-            {% csrf_token %}
-            {% for hidden in form.hidden_fields %}
-                {{ hidden }}
-            {% endfor %}
-            {% for field in form.visible_fields %}
-                {{ field.errors }}
-                {{ field.help_text }}
-                {{ field }}
-                <br/>
-            {% endfor %}
-            <input type="submit" name="submit" value="Create Page"/>
-        </form>
-    </div>
-{% else %}
-    <strong>No category by this name</strong>
-{% endif %}
-</body>
-</html>
+{% extends 'rango/base.html' %}
+{% block title_block %}
+    add_page
+{% endblock %}
+
+{% block body_block %}
+    {% if category %}
+        <h1>Add a Page</h1>
+        <div>
+            <form id="page_form" method="post" action="{% url 'rango:add_page' category.slug %}">
+                {% csrf_token %}
+                {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+                {% for field in form.visible_fields %}
+                    {{ field.error }}
+                    {{ field.help_text }}
+                    {{ field }}<br/>
+                {% endfor %}
+                <input type="submit" name="submit" value="Create Page"/>
+            </form>
+        </div>
+    {% else %}
+        <strong>No category by this name</strong>
+    {% endif %}
+{% endblock %}
