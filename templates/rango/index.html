@@ -6,52 +6,56 @@
 {% endblock %}
 
 {% block body_block %}
-    <h1>Rango says...</h1>
-    <div> Hey there partner!</div>
-    {% if categories %}
-        <hr/>
-        <div>
-            <h1>Most Liked Categories</h1>
-            <table style="border: hidden" cellpadding="5px">
-                <tr align="left">
-                    <th>Category</th>
-                    <th>Likes</th>
-                </tr>
-                {% for category in categories %}
-                    <tr>
-                        <td><a href="{% url 'rango:show_category' category.slug %}">
-                            {{ category.name }}
-                        </a></td>
-                        <td>{{ category.likes }}</td>
-                    </tr>
-                {% endfor %}
-            </table>
-        </div>
-    {% else %}
-        <strong>There are no categories now</strong>
-    {% endif %}
-    {% if pages %}
-        <hr/>
-        <div>
-            <h1>Most viewed Pages</h1>
-            <table style="border: hidden" cellpadding="5px">
-                <tr align="left">
-                    <th>Page</th>
-                    <th>Views</th>
-                </tr>
-                {% for page in pages %}
-                    <tr>
-                        <td><a href="{{ page.url }}">
-                            {{ page.title }}
-                        </a></td>
-                        <td>{{ page.views }}</td>
-                    </tr>
-                {% endfor %}
-            </table>
-        </div>
-    {% else %}
-        <strong>There are no pages now</strong>
-    {% endif %}
+    <div class="jumbotron">
+        <h1 class="display-3">Rango says...</h1>
+        {% if user.is_authenticated %}
+            <p class="lead">Hey {{ user.username }}!</p>
+        {% else %}
+            <p class="lead">Hey there partner!</p>
+        {% endif %}
+    </div>
+    <div class="row marketing">
+        {% if categories %}
+            <div class="col-lg-6">
+                <h2>Most Liked Categories</h2>
+                <ul class="list-group">
+                    {% for category in categories %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center"
+                            style="border: hidden">
+                            <a href="{% url 'rango:show_category' category.slug %}">
+                                {{ category.name }}
+                                <span class="badge badge-primary badge-pill">
+                        {{ category.likes }}
+                    </span>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <strong>There are no categories now</strong>
+        {% endif %}
+        {% if pages %}
+            <div class="col-lg-6">
+                <h2>Most viewed Pages</h2>
+                <ul class="list-group">
+                    {% for page in pages %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center"
+                            style="border: hidden">
+                            <a href="{{ page.url }}">
+                                {{ page.title }}
+                                <span class="badge badge-primary badge-pill">
+                                {{ page.views }}
+                            </span>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <strong>There are no pages now</strong>
+        {% endif %}
+    </div>
     <hr/>
     <img src="{% static 'images/rango.jpg' %}" alt="Picture of Rango"/>
 {% endblock %}

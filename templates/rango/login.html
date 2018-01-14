@@ -1,0 +1,25 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Sign In
+{% endblock %}
+
+
+{% block body_block %}
+    <link rel="stylesheet" href="{% static 'custom/signin.css' %}"/>
+    <form class="form-signin" id="login_form" method="post" action="{% url 'rango:user_login' %}">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        {% csrf_token %}
+        <label for="user_name_input">User Name</label>
+        <input type="text" id="user_name_input" name="username_form" value="" size="10" class="form-control"
+               placeholder="user name" required autofocus/>
+        <label for="password_input">Password</label>
+        <input type="password" id="password_input" name="password_form" value="" size="10" class="form-control"
+               placeholder="password" required/>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <div class="mt-3">
+            <p>Not a member?<a href="{% url 'rango:register' %}">Register</a></p>
+        </div>
+    </form>
+{% endblock %}

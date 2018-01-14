@@ -1,0 +1,54 @@
+{% extends 'rango/base.html' %}
+
+{% block title_block %}
+    user registration
+{% endblock %}
+
+{% block body_block %}
+    {% if registered %}
+        Rango says: <strong>thank you for registrating!</strong><br>
+        <a href="{% url 'rango:index' %}">Back to Homepage</a>
+    {% else %}
+        <div class="col-md-3 offset-4">
+            <h2 class="form-signin-heading">Sign Up Here</h2>
+            <form role="form" method="post" id="form_registration" action="{% url 'rango:register' %}"
+                  enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <p class="required">
+                        <label class="required" for="id_username">Username:</label>
+                        <input class="form-control" id="id_username" maxlength="30" name="username" type="text"/>
+                        <span class="helptext">
+                        Required. 30 characters or fewer. Letter, digits and @/./+/-/_ only.
+                    </span>
+                    </p>
+                    <p class="required">
+                        <label for="id_email" class="required">
+                            Email:
+                        </label>
+                        <input class="form-control" id="id_email" name="email" type="email"/>
+                    </p>
+                    <p class="required">
+                        <label class="required" for="id_password">
+                            Password:
+                        </label>
+                        <input class="form-control" id="id_password" name="password" type="password"/>
+                    </p>
+                    <p>
+                        <label for="id_website">
+                            Website:
+                        </label>
+                        <input class="form-control" id="id_website" name="website" type="url"/>
+                    </p>
+                    <p>
+                        <label for="id_picture">
+                            Picture:
+                        </label>
+                        <input class="form-control" id="id_picture" name="picture" type="file"/>
+                    </p>
+                </div>
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </form>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -3,30 +3,91 @@
 {% load staticfiles %}
 {% load rango_template_tags %}
 
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="{% static 'images/favicon.ico' %}">
+
     <title>Rango - {% block title_block %}How to Tango with Django{% endblock %}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'bootstrap-4.0.0-beta.3-dist/css/bootstrap.min.css' %}" rel="stylesheet">
+
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'custom/dashboard.css' %}" rel="stylesheet">
+
 </head>
+
 <body>
-<div>
-    {% block body_block %}
-        <strong>Under Construction......</strong>
-    {% endblock %}
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="{% url 'rango:index' %}">Rango</a>
+        <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse"
+                data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                {% with url_name=request.resolver_match.url_name %}
+                    <li class="nav-item {% if url_name == 'index' %}active{% endif %}">
+                        <a class="nav-link" href="{% url 'rango:index' %}">Home</a>
+                    </li>
+                    <li class="nav-item {% if url_name == 'about' %}active{% endif %}">
+                        <a class="nav-link" href="{% url 'rango:about' %}">About</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item {% if url_name == 'add_category' %}active{% endif %}">
+                            <a class="nav-link" href="{% url 'rango:add_category' %}">Add a New Category</a>
+                        </li>
+                        <li class="nav-item {% if url_name == 'restricted' %}active{% endif %}">
+                            <a class="nav-link" href="{% url 'rango:restricted' %}">Secret Page</a>
+                        </li>
+                        <li class="nav-item {% if url_name == 'user_logout' %}active{% endif %}">
+                            <a class="nav-link" href="{% url 'rango:user_logout' %}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item {% if url_name == 'register' %}active{% endif %}">
+                            <a class="nav-link" href="{% url 'rango:register' %}">Register</a>
+                        </li>
+                        <li class="nav-item {% if url_name == 'user_login' %}active{% endif %}">
+                            <a class="nav-link" href="{% url 'rango:user_login' %}">Login</a>
+                        </li>
+                    {% endif %}
+                {% endwith %}
+            </ul>
+        </div>
+    </nav>
+</header>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
+            <ul class="nav nav-pills flex-column">
+                {% block sidebar_block %}
+                    {% get_category_list category %}
+                {% endblock %}
+            </ul>
+        </nav>
+
+        <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
+            {% block body_block %}
+                <strong>Under Construction......</strong>
+            {% endblock %}
+        </main>
+    </div>
 </div>
-<hr/>
-<div>
-    <ul>
-        <li><a href="{% url 'rango:add_category' %}">Add New Category</a></li>
-        <li><a href="{% url 'rango:about' %}">About</a></li>
-        <li><a href="{% url 'rango:index' %}">Index</a></li>
-    </ul>
-</div>
-<hr/>
-<div>
-    {% block sidebar_block %}
-        {% get_category_list category %}
-    {% endblock %}
-</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="{% static 'bootstrap-4.0.0-beta.3-dist/js/bootstrap.min.js' %}"></script>
 </body>
 </html>
